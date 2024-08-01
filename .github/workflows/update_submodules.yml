@@ -1,0 +1,55 @@
+name: Sync Submodules
+
+on:
+  schedule:
+    - cron: '0 * * * *'  # Run every hour
+
+jobs:
+  update-submodules:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        env:
+          GITHUB_TOKEN: ${{ secrets.PAT }}
+        uses: actions/checkout@v2
+        with:
+          submodules: recursive  # Checkout submodules
+
+      - name: Fetch Submodules
+        run: |
+          git submodule foreach 'git fetch origin main'
+
+      - name: Check for Updates
+        id: check_updates
+        run: |
+          git submodule foreach '
+          UPSTREAM=${1:-'@{u}'}
+          LOCAL=$(git rev-parse @)
+          REMOTE=$(git rev-parse "$UPSTREAM")
+          BASE=$(git merge-base @ "$UPSTREAM")
+
+          if [ $LOCAL = $REMOTE ]; then
+              echo "Up-to-date"
+          elif [ $LOCAL = $BASE ]; then
+              echo "::set-output name=update_needed::true"
+          else
+              echo "Diverged"
+          fi
+          '
+
+      - name: Update Submodules to Main Branch
+        if: steps.check_updates.outputs.update_needed == 'true'
+        run: |
+          git submodule foreach 'git checkout main && git pull origin main'
+          git add .
+          git commit -m "Update submodules to latest commits on main branch" || echo "No changes to commit"
+
+      - name: Set up Git
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Push Changes
+        if: steps.check_updates.outputs.update_needed == 'true'
+        run: git push origin main || echo "No changes to push"
