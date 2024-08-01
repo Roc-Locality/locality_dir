@@ -11,33 +11,14 @@ jobs:
 
     steps:
       - name: Checkout Repository
-        env:
-          GITHUB_TOKEN: ${{ secrets.PAT }}
         uses: actions/checkout@v4
         with:
           submodules: recursive  # Checkout submodules
+          token: ${{ secrets.PAT }}  # Use the PAT for authentication
 
-      - name: Fetch Submodules
+      - name: Update Submodules to Main Branch
         run: |
-          git submodule foreach 'git fetch origin main'
-
-      - name: Check for Updates
-        id: check_updates
-        run: |
-          git submodule foreach '
-          UPSTREAM=${1:-'@{u}'}
-          LOCAL=$(git rev-parse @)
-          REMOTE=$(git rev-parse "$UPSTREAM")
-          BASE=$(git merge-base @ "$UPSTREAM")
-
-          if [ $LOCAL = $REMOTE ]; then
-              echo "Up-to-date"
-          elif [ $LOCAL = $BASE ]; then
-              echo "::set-output name=update_needed::true"
-          else
-              echo "Diverged"
-          fi
-          '
+          git submodule foreach 'git fetch origin main && git checkout main && git pull origin main'
 
       - name: Update Submodules to Main Branch
         run: |
