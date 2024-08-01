@@ -1,8 +1,9 @@
 name: Sync Submodules
 
 on:
-  schedule:
-    - cron: '53 * * * *'  # Run every hour
+  push:
+    branches:
+      - main  # Trigger the workflow on push to the main branch
 
 jobs:
   update-submodules:
