@@ -16,6 +16,8 @@ jobs:
           submodules: recursive  # Checkout submodules
 
       - name: Update Submodules
+        env:
+          GITHUB_TOKEN: ${{ secret.PAT }}
         run: |
           git submodule update --remote --merge
           git add .
