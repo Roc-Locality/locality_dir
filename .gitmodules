@@ -1,3 +1,15 @@
 [submodule "dace"]
 	path = dace
 	url = https://github.com/YanghuiWu/dace.git
+[submodule "dace_trace_gen"]
+	path = dace_trace_gen
+	url = https://github.com/YanghuiWu/dace_trace_gen.git
+[submodule "dace_tests"]
+	path = dace_tests
+	url = https://github.com/YanghuiWu/dace_tests.git
+[submodule "ri"]
+	path = ri
+	url = https://github.com/YanghuiWu/ri.git
+[submodule "lease_cache_sim"]
+	path = lease_cache_sim
+	url = https://github.com/YanghuiWu/lease_cache_sim.git
