@@ -1,9 +1,9 @@
 name: Sync Submodules
 
 on:
-  push:
-    branches:
-      - main  # Trigger the workflow on push to the main branch
+  repository_dispatch:
+    types: [update_submodule]
+  workflow_dispatch:  # Allow manual triggering of the workflow
 
 jobs:
   update-submodules:
