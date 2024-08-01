@@ -40,17 +40,13 @@ jobs:
           '
 
       - name: Update Submodules to Main Branch
-        if: steps.check_updates.outputs.update_needed == 'true'
         run: |
-          git submodule foreach 'git checkout main && git pull origin main'
-          git add .
-          git commit -m "Update submodules to latest commits on main branch" || echo "No changes to commit"
+          git submodule foreach 'git fetch origin main && git checkout main && git pull origin main'
 
-      - name: Set up Git
-        run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-
-      - name: Push Changes
-        if: steps.check_updates.outputs.update_needed == 'true'
-        run: git push origin main || echo "No changes to push"
+      - name: Commit and Push Changes
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "Update submodules to latest commits on main branch"
+          commit_user_name: "github-actions[bot]"
+          commit_user_email: "github-actions[bot]@users.noreply.github.com"
+          branch: main
