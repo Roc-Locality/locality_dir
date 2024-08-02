@@ -37,6 +37,10 @@ jobs:
       - name: Run debug tests
         run: cargo test --verbose
 
+      - name: Set Default Commit Message
+        if: github.event_name == 'workflow_dispatch'
+        run: echo "DEFAULT_COMMIT_MESSAGE=Manual trigger commit" >> $GITHUB_ENV
+
       - name: Commit and Push Changes
         if: success()
         id: auto-commit
@@ -46,4 +50,3 @@ jobs:
           commit_user_name: "github-actions[bot]"
           commit_user_email: "woodyy.wu@outlook.com"
           branch: main
-          token: ${{ secrets.PAT }}  # Use the PAT for authentication
