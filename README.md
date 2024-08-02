@@ -11,8 +11,8 @@ To clone the repository and ensure all submodules are set to the `main` branch, 
 #!/bin/bash
 
 # Clone the repository recursively
-git clone --recursive <repository_url>
-cd <repository_name>
+git clone --recursive https://github.com/YanghuiWu/locality_dir.git
+cd locality_dir
 
 # Set each submodule to track the 'main' branch
 git submodule foreach 'git checkout main || git checkout -b main origin/main'
