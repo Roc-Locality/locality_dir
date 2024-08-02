@@ -1,4 +1,4 @@
-name: Sync Submodules
+name: Sync Submodules and Check Correctness
 
 on:
   repository_dispatch:
@@ -6,7 +6,7 @@ on:
   workflow_dispatch:  # Allow manual triggering of the workflow
 
 jobs:
-  update-submodules:
+  update-and-check:
     runs-on: ubuntu-latest
 
     steps:
@@ -20,7 +20,31 @@ jobs:
         run: |
           git submodule foreach 'git fetch origin main && git checkout main && git pull origin main'
 
+      - name: Initialize Rustup
+        run: |
+          rustup toolchain install nightly --component rustfmt clippy --profile minimal --force
+          rustup override set nightly
+
+      - name: Run build
+        run: cargo build --verbose
+
+      - name: Run rustfmt
+        run: cargo fmt --all -- --check
+
+      - name: Run clippy
+        run: cargo clippy --all
+
+      - name: Build Release
+        run: cargo build --release --verbose
+
+      - name: Run debug tests
+        run: cargo test --verbose
+
+      - name: Run release tests
+        run: cargo test --verbose --release
+
       - name: Commit and Push Changes
+        if: success()
         id: auto-commit
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
