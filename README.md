@@ -19,3 +19,4 @@ git submodule foreach 'git checkout main || git checkout -b main origin/main'
 
 # Update each submodule to the latest commit on the 'main' branch
 git submodule update --remote --merge
+git pull
