@@ -1,0 +1,13 @@
+[workspace]
+resolver = "2"
+members = [
+    "dace",
+    "dace_tests",
+    "dace_trace_gen",
+    "lease_cache_sim",
+    "ri",
+]
+
+[profile.release]
+debug = true
+lto = true
