@@ -20,14 +20,12 @@ jobs:
         run: |
           git submodule foreach 'git fetch origin main && git checkout main && git pull origin main'
 
-      - name: Update Submodules to Main Branch
-        run: |
-          git submodule foreach 'git fetch origin main && git checkout main && git pull origin main'
-
       - name: Commit and Push Changes
+        id: auto-commit
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: "Update submodules to latest commits on main branch"
+          commit_message: ${{ github.event.client_payload.commit_message }}
           commit_user_name: "github-actions[bot]"
           commit_user_email: "github-actions[bot]@users.noreply.github.com"
           branch: main
+          token: ${{ secrets.PAT }}  # Use the PAT for authentication
