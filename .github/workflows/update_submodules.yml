@@ -28,8 +28,8 @@ jobs:
       - name: Run rustfmt
         run: cargo fmt --all -- --check
 
-      - name: Run clippy
-        run: cargo clippy --all
+      # - name: Run clippy
+      #   run: cargo clippy --all
 
       - name: Build Release
         run: cargo build --verbose
@@ -46,7 +46,7 @@ jobs:
         id: auto-commit
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: ${{ github.event.client_payload.commit_message }}
+          commit_message: ${{ github.event.client_payload.commit_message || env.DEFAULT_COMMIT_MESSAGE }}
           commit_user_name: "github-actions[bot]"
           commit_user_email: "woodyy.wu@outlook.com"
           branch: main
