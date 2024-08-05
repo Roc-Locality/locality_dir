@@ -13,3 +13,6 @@
 [submodule "lease_cache_sim"]
 	path = lease_cache_sim
 	url = https://github.com/YanghuiWu/lease_cache_sim.git
+[submodule "constructive_opt"]
+	path = constructive_opt
+	url = https://github.com/Dace-Locality/constructive_opt.git

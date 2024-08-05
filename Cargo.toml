@@ -1,6 +1,7 @@
 [workspace]
 resolver = "2"
 members = [
+    "constructive_opt",
     "dace",
     "dace_tests",
     "dace_trace_gen",
