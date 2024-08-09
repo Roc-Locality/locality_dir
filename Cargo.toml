@@ -7,6 +7,7 @@ members = [
     "dace_trace_gen",
     "lease_cache_sim",
     "ri",
+    "clam_cache"
 ]
 
 [profile.release]
