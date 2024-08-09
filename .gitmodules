@@ -16,3 +16,6 @@
 [submodule "constructive_opt"]
 	path = constructive_opt
 	url = https://github.com/Dace-Locality/constructive_opt.git
+[submodule "clam_cache"]
+	path = clam_cache
+	url = https://github.com/Roc-Locality/clam_cache
