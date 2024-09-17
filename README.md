@@ -29,3 +29,9 @@ git submodule foreach 'git checkout main || git checkout -b main origin/main'
 git submodule update --remote --merge
 git pull
 ```
+
+```bash
+find . -name "Cargo.lock" -type f -delete
+cargo-cache -r all
+cargo update
+```
